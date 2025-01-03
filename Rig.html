@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="./style.css" rel="stylesheet">
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="container">
+        <form class="w-50 mx-auto py-5 shadow p-4">
+            <h3>Login</h3>
+            
+            <!-- Email input -->
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+
+            <!-- Password input -->
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" required>
+            </div>
+
+            <!-- Submit button -->
+            <div class="mb-3 d-flex">
+              <button type="submit" class="btn btn-primary" > Submit</button>
+              <!-- Link to signup page -->
+              <p class="form-label ms-auto mt-2">Don't have an account? <a href="signup.html">signup</a></p>
+
+              <script>
+  // Handle the form submission
+  document.querySelector('form').addEventListener('submit', async (event) => {
+    event.preventDefault();  // Prevent form from reloading the page
+
+    const email = document.getElementById('exampleInputEmail1').value;
+    const password = document.getElementById('exampleInputPassword1').value;
+
+    // Send data to backend
+    try {
+      const response = await fetch('http://localhost:27017/adarsh/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);  // Show success message
+        console.log('Token:', data.token);  // You can store the token for further use, e.g., for session management
+      } else {
+        alert(data.message);  // Show error message
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Something went wrong!');
+    }
+  });
+</script>
+
+            </div>
+        </form>
+    </div>
+  </body>
+</html>
